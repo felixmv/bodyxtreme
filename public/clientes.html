@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BodyXtreme</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="./css/materialize/materialize.min.css"/>
+  <link type="text/css" rel="stylesheet" href="./css/master.css">
+</head>
+<body class="grey lighten-3">
+  <header>
+    <div class="navbar-fixed">
+      <nav class="white z-depth-2">
+        <div class="nav-wrapper">
+          <a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons grey-text text-darken-2">menu</i></a>
+          <a href="" class="brand-logo center grey-text text-darken-2"><img src="./img/bx.jpeg" alt="logo" class="logo "/></a>
+        </div>
+      </nav>
+    </div>
+    <ul id="slide-out" class="side-nav">
+      <li class="sidenav-header"><h5>Clientes</h5></li>
+      <li class=""><a href="./index.html" class="grey-text text-darken-2"><i class="material-icons">assignment</i>Asistencia</a></li>
+      <li class="active"><a href="./clientes.html" class="grey-text text-darken-2"><i class="material-icons">group</i>Clientes</a></li>
+      <li class=""><a href="./planes.html" class="grey-text text-darken-2"><i class="material-icons">business_center</i>Productos y Servicios</a></li>
+      <li><div class="divider"></div></li>
+    </ul>
+  </header>
+
+  <main class="">
+    <div class="section">
+      <div class="row">
+        <div class="col s12">
+          <div id="card" class="card white">
+            <div class="card-content">
+              <div class="row">
+                <div class="col s6">
+                  <span class="card-title grey-text text-darken-4">Clientes</span>
+                </div>
+                <div class="col s6">
+                  <div class="input-field">
+                    <input id="search" type="search" onkeyup="search()">
+                    <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                    <i class="material-icons">close</i>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col s12">
+                  <table id="clientes" class="highlight">
+                    <thead>
+                      <tr>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Identificación</th>
+                        <th>Email</th>
+                        <th>Teléfono</th>
+                        <th>Profesión</th>
+                        <th>Dirección</th>
+                        <th>Plan</th>
+                        <th>Opciones</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!--
+    - Boton Fijo
+  -->
+  <div class="fixed-action-btn">
+    <a class="waves-effect waves-circle btn-floating btn-large blue darken-4 z-depth-5 modal-trigger" href="#modalCliente">
+      <i class="large material-icons">add</i>
+    </a>
+  </div>
+
+  <!--
+    - Modal Structure
+  -->
+  <div id="modalCliente" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4 class="grey-text text-darken-2">Agregar Cliente</h4>
+      <div class="row">
+        <form class="col s12" id="formCliente">
+          <div class="row">
+            <div class="input-field col s12">
+              <select class="validate" id="plan">
+                <option value="" disabled selected>Elige un plan</option>
+                <option value="7">Plan una semana</option>
+                <option value="1">Plan un día</option>
+                <option value="30">Promoción Especiol Mes</option>
+              </select>
+              <label>Plan</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6">
+              <input id="nombre" type="text" class="validate">
+              <label for="nombre">Nombre</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="apellido" type="text" class="validate">
+              <label for="apellido">Apellido</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6">
+              <input id="identificacion" type="text" class="validate">
+              <label for="identificacion">Identificación</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6">
+              <input id="email" type="email" class="validate">
+              <label for="email">Email</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6">
+              <input id="telefono" type="tel" class="validate">
+              <label for="telefono">Teléfono</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6">
+              <input id="profesion" type="text" class="validate">
+              <label for="profesion">Profesión</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6">
+              <input id="direccion" type="text" class="validate">
+              <label for="direccion">Dirección</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s6">
+              <input id="birthday"type="text" class="datepicker validate">
+              <label for="birthday">Fecha Nacimiento</label>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a id="cancelarCliente" class="waves-effect btn-flat">Cancelar</a>
+      <a id="btnCliente" class="waves-effect btn-flat">Guardar</a>
+    </div>
+  </div>
+
+  <!-- Insert this line above script imports  -->
+  <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+  <script src="./js/firebasejs/firebase.js"></script>
+  <script src="./js/jquery/jquery-3.3.1.min.js"></script>
+  <script src="./js/materialize/materialize.min.js"></script>
+  <script src="../App.js"></script>
+  <script src="../clientes.js"></script>
+  <!-- Insert this line after script imports -->
+  <script>if (window.module) module = window.module;</script>
+</body>
+</html>

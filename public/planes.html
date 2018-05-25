@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BodyXtreme</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link type="text/css" rel="stylesheet" href="./css/materialize/materialize.min.css"/>
+  <link type="text/css" rel="stylesheet" href="./css/master.css">
+</head>
+<body class="grey lighten-3">
+  <header>
+    <div class="navbar-fixed">
+      <nav class="white z-depth-2">
+        <div class="nav-wrapper">
+          <a href="#" data-activates="slide-out" class="button-collapse show-on-large"><i class="material-icons grey-text text-darken-2">menu</i></a>
+          <a href="" class="brand-logo center grey-text text-darken-2"><img src="./img/bx.jpeg" alt="logo" class="logo "/></a>
+        </div>
+      </nav>
+    </div>
+    <ul id="slide-out" class="side-nav">
+      <li class="sidenav-header"><h5>Productos y Serivicios</h5></li>
+      <li class=""><a href="./index.html" class="grey-text text-darken-2"><i class="material-icons">assignment</i>Asistencia</a></li>
+      <li class=""><a href="./clientes.html" class="grey-text text-darken-2"><i class="material-icons">group</i>Clientes</a></li>
+      <li class="active"><a href="./planes.html" class="grey-text text-darken-2"><i class="material-icons">business_center</i>Productos y Servicios</a></li>
+      <li><div class="divider"></div></li>
+    </ul>
+  </header>
+
+  <main class="">
+    <div class="section">
+      <div class="row">
+        <div class="col s12">
+          <div id="card" class="card white">
+            <div class="card-content">
+              <div class="row">
+                <div class="col s12">
+                  <span class="card-title grey-text text-darken-4">Productos y Servicios</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col s12">
+                  <table id="planes" class="highlight">
+                    <thead>
+                      <tr>
+                        <th>Descripción</th>
+                        <th>Precio</th>
+                        <th>Duración</th>
+                        <th>Opciones</th>
+                      </tr>
+                    </thead>
+                    <tbody></tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!--
+    - Boton Fijo
+  -->
+  <div class="fixed-action-btn">
+    <a class="waves-effect waves-circle btn-floating btn-large blue darken-4 z-depth-5 modal-trigger" href="#modalPlan">
+      <i class="large material-icons">add</i>
+    </a>
+  </div>
+
+  <!--
+    - Modal Structure
+  -->
+  <div id="modalPlan" class="modal modal-fixed-footer">
+    <div class="modal-content">
+      <h4 class="grey-text text-darken-2">Agregar Producto-Servicio</h4>
+      <div class="row">
+        <form class="col s12">
+          <div class="row">
+            <div class="input-field col s8">
+              <input id="descripcion" type="text" class="validate">
+              <label for="descripcion">Descripción</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s8">
+              <input id="precio" type="text" class="validate">
+              <label for="precio">Precio</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s8">
+              <input id="duracion" type="number" class="validate">
+              <label for="duracion">Duración</label>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a id="cancelarPlan" class="waves-effect btn-flat">Cancelar</a>
+      <a id="btnPlan" class="waves-effect btn-flat">Guardar</a>
+    </div>
+  </div>
+
+  <!-- Insert this line above script imports  -->
+  <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+  <script src="./js/firebasejs/firebase.js"></script>
+  <script src="./js/jquery/jquery-3.3.1.min.js"></script>
+  <script src="./js/materialize/materialize.min.js"></script>
+  <script src="../App.js"></script>
+  <script src="../planes.js"></script>
+  <!-- Insert this line after script imports -->
+  <script>if (window.module) module = window.module;</script>
+</body>
+</html>
