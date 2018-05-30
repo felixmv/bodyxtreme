@@ -1,9 +1,23 @@
+const planes = db.child('planes')
+
+$(function () {
+  planes.on('value', snapshot => {
+    let snap = snapshot.val()
+
+    for(p in snap) {
+      $('#planList').append(`<option value=${snap[p].duracion}>${snap[p].descripcion}</option>`)
+    }
+
+    $('select').material_select()
+  })
+})
+
 function clearForm() {
   $('#formCliente').trigger('reset');
 }
 
 function getValuesForm() {
-  var plan = parseInt($('#plan').val());
+  var plan = parseInt($('#planList').val());
   var nombre = $('#nombre').val();
   var apellido = $('#apellido').val();
   var identificacion = parseInt($('#identificacion').val());
@@ -37,7 +51,7 @@ var guardarCliente = function() {
 
   if (isNaN(cliente.plan) == true || cliente.plan == ''){
     $(mensaje).append("<strong>¡Error!</strong> Por favor, selecciona un plan").delay(1000).fadeOut();
-    $("#plan").after(mensaje);
+    $("#planList").after(mensaje);
   } else if (cliente.nombre.length < 2 || cliente.nombre.length > 20 || !exprNombre.test(cliente.nombre)) {
     $(mensaje).append("<strong>¡Error!</strong> Por favor, coloca los nombres aqui").delay(1000).fadeOut();
     $("#nombre").after(mensaje);
@@ -147,7 +161,7 @@ var guardarCliente = function() {
        clearForm();
      });
 
-     // $("#plan").val(clienteData.plan);
+     // $("#planList").val(clienteData.plan);
      $("#nombre").val(clienteData.nombre);
      $("#apellido").val(clienteData.apellido);
      $("#identificacion").val(clienteData.identificacion);

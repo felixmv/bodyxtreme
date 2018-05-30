@@ -22,8 +22,6 @@ $(function () {
     close: 'Ok',
     closeOnSelect: false
   });
-
-  $('select').material_select();
 });
 
 // Initialize Firebase
@@ -38,7 +36,7 @@ firebase.initializeApp(config);
 const db = firebase.database().ref();
 const clientes = db.child('clientes');
 const asistencia = db.child('asistencia');
-const electron = require('electron')
+/*const electron = require('electron')
 const {ipcRenderer} = electron
 
 ipcRenderer.on('portList', (e, data) => {
@@ -48,7 +46,7 @@ ipcRenderer.on('portList', (e, data) => {
 ipcRenderer.on('deviceData', (e, data) => {
   var uid = data
   addAsist(uid)
-})
+})*/
 
 var cnt = 1;
 asistencia.on('child_added', snapshot => {
