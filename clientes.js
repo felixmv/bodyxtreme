@@ -81,33 +81,35 @@ var guardarCliente = function() {
 
  $('#btnCliente').click(guardarCliente);
 
- clientes.on('child_added', snapshot => {
+ clientes.on('value', snapshot => {
    var snap = snapshot.val();
-
+   $('#clientes tbody').empty();
    var row = "";
 
-   row += `
-           <tr data-hash='${snapshot.key}'>
-             <td class="nombre">${snap.nombre}</td>
-             <td class="apellido">${snap.apellido}</td>
-             <td class="identificacion">${snap.identificacion}</td>
-             <td class="email">${snap.email}</td>
-             <td class="telefono">${snap.telefono}</td>
-             <td class="profesion">${snap.profesion}</td>
-             <td class="direccion">${snap.direccion}</td>
-             <td class="plan">${snap.plan}</td>
-             <td>
-               <a class="btn-flat waves-effect modal-trigger" href="#modalCliente" id="editarCliente"><i class="material-icons orange-text">mode_edit</i></a>
-               <a class="btn-flat waves-effect" id="eliminarCliente"><i class="material-icons red-text">delete</i></a>
-               <a class="btn-flat waves-effect" id="nfc"><i class="material-icons blue-text">nfc</i></a>
-             </td>
-           </tr>
-          `;
+   for (cliente in snap) {
+     row += `
+             <tr data-hash='${cliente}'>
+               <td class="nombre">${snap[cliente].nombre}</td>
+               <td class="apellido">${snap[cliente].apellido}</td>
+               <td class="identificacion">${snap[cliente].identificacion}</td>
+               <td class="email">${snap[cliente].email}</td>
+               <td class="telefono">${snap[cliente].telefono}</td>
+               <td class="profesion">${snap[cliente].profesion}</td>
+               <td class="direccion">${snap[cliente].direccion}</td>
+               <td class="plan">${snap[cliente].plan}</td>
+               <td>
+                 <a class="btn-flat waves-effect modal-trigger" href="#modalCliente" id="editarCliente"><i class="material-icons orange-text">mode_edit</i></a>
+                 <a class="btn-flat waves-effect" id="eliminarCliente"><i class="material-icons red-text">delete</i></a>
+                 <a class="btn-flat waves-effect" id="nfc"><i class="material-icons blue-text">nfc</i></a>
+               </td>
+             </tr>
+            `;
+   }
 
 
-   $('#clientes tbody').prepend(row);
+   $('#clientes tbody').append(row);
    row = "";
- });
+ })
 
  function editarCliente() {
    var clienteId = $(this).closest('tr').data('hash');
@@ -163,12 +165,14 @@ var guardarCliente = function() {
 
  function eliminarCliente() {
    var clienteId = $(this).closest('tr').data('hash');
+   // var row = $(this).parents('tr');
    console.log(clienteId);
    var txt;
    var r = confirm("Eliminar?");
    if (r == true) {
        txt = "You pressed OK!";
        clientes.child(clienteId).remove();
+       // row.remove();
    } else {
        txt = "You pressed Cancel!";
    }
