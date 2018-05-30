@@ -12,6 +12,10 @@ $(function () {
     dismissible: false
   });
 
+  $('#modalEPlan').modal({
+    dismissible: false
+  })
+
   $('.datepicker').pickadate({
     selectMonths: true,
     selectYears: 50,
@@ -68,7 +72,7 @@ asistencia.on('child_added', snapshot => {
              <td class="nombre">${asist.nombre}</td>
              <td class="apellido">${asist.apellido}</td>
              <td class="fecha">${new Date(asist.year, asist.month, asist.day, asist.hour, asist.minute).toLocaleDateString("es", opts)}</td>
-             <td class="plan">${asist.plan}</td>
+             <td class="plan">${asist.duracionPlan}</td>
            </tr>
           `;
 
@@ -86,14 +90,14 @@ function addAsist(uid) {
   var minute = date.getMinutes();
 
   clientes.child(uid).once("value", snap => {
-    var plan = snap.val().plan -1;
+    var duracionPlan = snap.val().duracionPlan -1;
     var nombre = snap.val().nombre;
     var apellido = snap.val().apellido;
 
     var asist = {
       nombre,
       apellido,
-      plan,
+      duracionPlan,
       year,
       month,
       day,
@@ -101,7 +105,7 @@ function addAsist(uid) {
       minute
     };
 
-    clientes.child(uid).update({plan: plan});
+    clientes.child(uid).update({duracionPlan});
     asistencia.push().set(asist, error => {
       if (error) {
         console.log(error, 'La sincronizacion fallo');

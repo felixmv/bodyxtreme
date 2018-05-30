@@ -6,6 +6,7 @@ $(function () {
 
     for(p in snap) {
       $('#planList').append(`<option value=${snap[p].duracion}>${snap[p].descripcion}</option>`)
+      $('#eplanList').append(`<option value=${snap[p].duracion}>${snap[p].descripcion}</option>`)
     }
 
     $('select').material_select()
@@ -17,7 +18,8 @@ function clearForm() {
 }
 
 function getValuesForm() {
-  var plan = parseInt($('#planList').val());
+  var duracionPlan = parseInt($('#planList').val());
+  var plan = $('#planList option:selected').text()
   var nombre = $('#nombre').val();
   var apellido = $('#apellido').val();
   var identificacion = parseInt($('#identificacion').val());
@@ -28,6 +30,7 @@ function getValuesForm() {
   var birthday = $('#birthday').val();
 
   var values = {
+    duracionPlan,
     plan,
     nombre,
     apellido,
@@ -53,10 +56,11 @@ var guardarCliente = function() {
   var exprNombre = /^[a-zA-Z\s]*$/;
   var expresion = /^3[\d]{9}$/;
 
-  if (isNaN(cliente.plan) == true || cliente.plan == ''){
+  if (isNaN(cliente.duracionPlan) == true || cliente.duracionPlan == ''){
     $(mensaje).append("<strong>¡Error!</strong> Por favor, selecciona un plan").delay(1000).fadeOut();
     $("#planList").after(mensaje);
-    foco($('#planList'))
+    // foco($('#planList').select())
+    // $('#planList').focus().select()
   } else if (cliente.nombre.length < 2 || cliente.nombre.length > 20 || !exprNombre.test(cliente.nombre)) {
     $(mensaje).append("<strong>¡Error!</strong> Por favor, coloca los nombres aqui").delay(1000).fadeOut();
     $("#nombre").after(mensaje);
@@ -123,8 +127,9 @@ var guardarCliente = function() {
                <td class="telefono">${snap[cliente].telefono}</td>
                <td class="profesion">${snap[cliente].profesion}</td>
                <td class="direccion">${snap[cliente].direccion}</td>
-               <td class="plan">${snap[cliente].plan}</td>
+               <td class="plan"><span class="new badge" data-badge-caption="días">${snap[cliente].duracionPlan}</span></td>
                <td>
+               <a class="btn-flat waves-effect modal-trigger" href="#modalEPlan" id="pln"><i class="material-icons purple-text">calendar_today</i></a>
                  <a class="btn-flat waves-effect modal-trigger" href="#modalCliente" id="editarCliente"><i class="material-icons orange-text">mode_edit</i></a>
                  <a class="btn-flat waves-effect" id="eliminarCliente"><i class="material-icons red-text">delete</i></a>
                  <a class="btn-flat waves-effect" id="nfc"><i class="material-icons blue-text">nfc</i></a>
@@ -141,16 +146,16 @@ var guardarCliente = function() {
  function editarCliente() {
    var clienteId = $(this).closest('tr').data('hash');
    var clienteRef = clientes.child(clienteId);
-   console.log(clienteId);
 
    clienteRef.once('value')
    .then(function (data) {
      var clienteData = data.val();
 
      $(".titulo-modal").text("Editar Cliente");
+     $("#planSelect").hide()
      $("#btnCliente").text('Editar').unbind('click').click(function () {
        clienteRef.update({
-         plan: clienteData.plan,
+         // plan: clienteData.plan,
          nombre: $("#nombre").val(),
          apellido: $("#apellido").val(),
          identificacion: $("#identificacion").val(),
@@ -162,6 +167,7 @@ var guardarCliente = function() {
        }, function () {
          $('#modalCliente').modal('close');
          $(".titulo-modal").text("Agregar Cliente");
+         $("#planSelect").show()
          $("#btnCliente").text('Guardar').unbind('click').click(guardarCliente);
          clearForm();
        })
@@ -170,6 +176,7 @@ var guardarCliente = function() {
      $("#cancelarCliente").unbind('click').click(function () {
        $('#modalCliente').modal('close');
        $(".titulo-modal").text("Agregar Cliente");
+       $("#planSelect").show()
        $("#btnCliente").text('Guardar').unbind('click').click(guardarCliente);
        clearForm();
      });
@@ -192,8 +199,6 @@ var guardarCliente = function() {
 
  function eliminarCliente() {
    var clienteId = $(this).closest('tr').data('hash');
-   // var row = $(this).parents('tr');
-   console.log(clienteId);
    var txt;
    var r = confirm("Eliminar?");
    if (r == true) {
@@ -212,10 +217,41 @@ var guardarCliente = function() {
    ipcRenderer.send('guardarNFC', clienteId)
  }
 
+ function editarPlan() {
+   var clienteId = $(this).closest('tr').data('hash');
+   var clienteRef = clientes.child(clienteId);
+
+   clienteRef.once('value')
+   .then(function (data) {
+     var clienteData = data.val()
+     $('#plnActual').text(clienteData.plan)
+     $('#dr').text(clienteData.duracionPlan)
+     $("#btnEPlan").click(function () {
+       clienteRef.update({
+         plan: $('#eplanList option:selected').text(),
+         duracionPlan: clienteData.duracionPlan + parseInt($('#eplanList').val())
+       }, function () {
+         $('#modalEPlan').modal('close')
+         $('#formEPlan').trigger('reset')
+       })
+     })
+   }, function (error) {
+     console.log(error);
+   })
+
+
+ }
+
+ $('#cancelarEPlan').click(() => {
+   $('#modalEPlan').modal('close')
+   $('#formEPlan').trigger('reset')
+ })
+
  var table = $('table tbody');
  table.on('click', 'a#editarCliente', editarCliente);
  table.on('click', 'a#eliminarCliente', eliminarCliente);
  table.on('click', 'a#nfc', guardarNFC);
+ table.on('click', 'a#pln', editarPlan);
 
 var search = function() {
  // Declare variables

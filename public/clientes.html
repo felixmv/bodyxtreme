@@ -89,7 +89,7 @@
       <h4 class="grey-text text-darken-2 titulo-modal">Agregar Cliente</h4>
       <div class="row">
         <form class="col s12" id="formCliente">
-          <div class="row">
+          <div class="row" id="planSelect">
             <div class="input-field col s12">
               <select id="planList">
                 <option value="" disabled selected>Elige un plan</option>
@@ -149,6 +149,37 @@
     <div class="modal-footer">
       <a id="cancelarCliente" class="waves-effect btn-flat">Cancelar</a>
       <a id="btnCliente" class="waves-effect btn-flat">Guardar</a>
+    </div>
+  </div>
+
+  <!--
+    - Modal Structure
+  -->
+  <div id="modalEPlan" class="modal">
+    <div class="modal-content">
+      <h4 class="grey-text text-darken-2 tittle-modal">Actualizar Plan</h4>
+      <div class="row">
+        <div class="row">
+          <div class="">
+            <div class="col s6" id="plnActual"></div>
+            <span class="new badge" data-badge-caption="días" id="dr"></span>
+          </div>
+        </div>
+        <form class="col s12" id="formEPlan">
+          <div class="row" id="planSelect">
+            <div class="input-field col s12">
+              <select id="eplanList">
+                <option value="" disabled selected>Elige un plan</option>
+              </select>
+              <label>Plan</label>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <a id="cancelarEPlan" class="waves-effect btn-flat">Cancelar</a>
+      <a id="btnEPlan" class="waves-effect btn-flat">Guardar</a>
     </div>
   </div>
 
