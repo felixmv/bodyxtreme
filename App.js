@@ -83,7 +83,7 @@ function addAsist(uid) {
   var date = new Date();
   var year = date.getFullYear();
   var month = date.getMonth();
-  var day = date.getDay();
+  var day = date.getDate();
   var hour = date.getHours();
   var minute = date.getMinutes();
 
