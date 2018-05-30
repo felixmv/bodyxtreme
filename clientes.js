@@ -42,8 +42,12 @@ function getValuesForm() {
   return values;
 }
 
+function foco(variable) {
+  $(variable).focus()
+}
+
 var guardarCliente = function() {
-  var mensaje = $(document.createElement('div')).addClass("card-panel red accent-4");
+  var mensaje = $(document.createElement('div')).addClass("card-panel red white-text");
   var cliente = getValuesForm();
   var expr = /^[a-zA-Z0-9_\.\-]+@[a-zA-Z0-9\-]+\.[a-zA-Z0-9\-\.]+$/;
   var exprNombre = /^[a-zA-Z\s]*$/;
@@ -52,30 +56,39 @@ var guardarCliente = function() {
   if (isNaN(cliente.plan) == true || cliente.plan == ''){
     $(mensaje).append("<strong>¡Error!</strong> Por favor, selecciona un plan").delay(1000).fadeOut();
     $("#planList").after(mensaje);
+    foco($('#planList'))
   } else if (cliente.nombre.length < 2 || cliente.nombre.length > 20 || !exprNombre.test(cliente.nombre)) {
     $(mensaje).append("<strong>¡Error!</strong> Por favor, coloca los nombres aqui").delay(1000).fadeOut();
     $("#nombre").after(mensaje);
+    foco($('#nombre'))
   } else if (cliente.apellido.length < 2 || !exprNombre.test(cliente.apellido)) {
     $(mensaje).append("<strong>¡Error!</strong> Por favor, coloca los apellidos aqui").delay(1000).fadeOut();
     $("#apellido").after(mensaje);
+    foco($('#apellido'))
   } else if (isNaN(cliente.identificacion) == true || cliente.identificacion == '' || cliente.identificacion.length > 8){
     $(mensaje).append("<strong>¡Error!</strong> Por favor, coloca un numero de identificaion correcto").delay(1000).fadeOut();
     $("#identificacion").after(mensaje);
+    foco($('#identificacion'))
   } else if (!expr.test(cliente.email)){
     $(mensaje).append("<strong>¡Error!</strong> Por favor, coloca una direccion de correo correcta").delay(1000).fadeOut();
     $("#email").after(mensaje);
+    foco($('#email'))
   } else if (isNaN(cliente.telefono) == true || cliente.telefono == ''){
     $(mensaje).append("<strong>¡Error!</strong> Por favor, coloca un numero de telefono correcto").delay(1000).fadeOut();
     $("#telefono").after(mensaje);
+    foco($('#telefono'))
   } else if (cliente.profesion.length < 2 || cliente.profesion.length > 20 || !exprNombre.test(cliente.profesion)){
     $(mensaje).append("<strong>¡Error!</strong> Por favor, coloca una profesion correcta").delay(1000).fadeOut();
     $("#profesion").after(mensaje);
+    foco($('#profesion'))
   } else if (cliente.direccion.length < 5 || cliente.direccion.length > 20){
     $(mensaje).append("<strong>¡Error!</strong> Por favor, coloca una direccion correcta").delay(1000).fadeOut();
     $("#direccion").after(mensaje);
+    foco($('#direccion'))
   } else if (cliente.birthday == ""){
     $(mensaje).append("<strong>¡Error!</strong> Por favor, coloca una fecha").delay(1000).fadeOut();
     $("#birthday").after(mensaje);
+    foco($('#birthday'))
   } else {
     clientes.push().set(cliente, error => {
       if (error) {
