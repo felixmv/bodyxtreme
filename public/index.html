@@ -33,7 +33,16 @@
         <div class="col s12">
           <div id="card" class="card white">
             <div class="card-content">
-              <span class="card-title grey-text text-darken-4">Asistencia</span>
+              <div class="col s6">
+                <span class="card-title grey-text text-darken-4">Asistencia</span>
+              </div>
+              <div class="col s6">
+                <div class="input-field">
+                  <input id="search" type="search" onkeyup="search()">
+                  <label class="label-icon" for="search"><i class="material-icons">search</i></label>
+                  <i class="material-icons">close</i>
+                </div>
+              </div>
               <table id="asistencia" class="highlight">
                 <thead>
                   <tr>
