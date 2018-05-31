@@ -81,16 +81,16 @@ asistencia.on('child_added', snapshot => {
   cnt++
 });
 
-function addAsist(uid) {
-  var date = new Date();
-  var year = date.getFullYear();
-  var month = date.getMonth();
-  var day = date.getDate();
-  var hour = date.getHours();
-  var minute = date.getMinutes();
+var date = new Date();
+var year = date.getFullYear();
+var month = date.getMonth();
+var day = date.getDate();
+var hour = date.getHours();
+var minute = date.getMinutes();
 
+function addAsist(uid) {
   clientes.child(uid).once("value", snap => {
-    var duracionPlan = snap.val().duracionPlan -1;
+    var duracionPlan = snap.val().duracionPlan;
     var nombre = snap.val().nombre;
     var apellido = snap.val().apellido;
 
@@ -105,7 +105,6 @@ function addAsist(uid) {
       minute
     };
 
-    clientes.child(uid).update({duracionPlan});
     asistencia.push().set(asist, error => {
       if (error) {
         console.log(error, 'La sincronizacion fallo');
@@ -135,3 +134,27 @@ var search = function() {
    }
  }
 }
+const fecha = db.child('fecha')
+
+function discount() {
+  let fch
+  let clnt
+
+  fecha.once('value', snapshot => {
+    fch = snapshot.val()
+    if (day > fch.dia || month > fch.mes) {
+      clientes.once('value', snapshot => {
+        clnt = snapshot.val()
+
+        for (c in clnt) {
+          if (clnt[c].duracionPlan > 0) {
+            clientes.child(c).update({duracionPlan: clnt[c].duracionPlan - 1})
+          }
+        }
+      })
+      fecha.update({mes: month, dia: day})
+    }
+  })
+}
+
+discount()
