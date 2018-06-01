@@ -127,7 +127,7 @@ var guardarCliente = function() {
                <td class="telefono">${snap[cliente].telefono}</td>
                <td class="profesion">${snap[cliente].profesion}</td>
                <td class="direccion">${snap[cliente].direccion}</td>
-               <td class="plan"><span class="new badge" data-badge-caption="días">${snap[cliente].duracionPlan}</span></td>
+               ${checkPlan(snap[cliente])}
                <td>
                <a class="btn-flat waves-effect modal-trigger" href="#modalEPlan" id="pln"><i class="material-icons purple-text">calendar_today</i></a>
                  <a class="btn-flat waves-effect modal-trigger" href="#modalCliente" id="editarCliente"><i class="material-icons orange-text">mode_edit</i></a>

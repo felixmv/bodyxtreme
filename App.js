@@ -22,9 +22,12 @@ $(function () {
     min: new Date(1970,1,1),
     max: true,
     today: false,
-    clear: 'Clear',
+    clear: 'Limpiar',
     close: 'Ok',
-    closeOnSelect: false
+    closeOnSelect: false,
+    monthsFull: [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ],
+    monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"],
+    weekdaysShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
   });
 });
 
@@ -52,14 +55,28 @@ ipcRenderer.on('deviceData', (e, data) => {
   addAsist(uid)
 })*/
 
+var date = new Date();
+var year = date.getFullYear();
+var month = date.getMonth();
+var day = date.getDate();
+var hour = date.getHours();
+var minute = date.getMinutes();
 var cnt = 1;
+
+function checkPlan(cliente) {
+  if (cliente.duracionPlan <= 7) {
+    return `<td class="plan"><span class="new badge red" data-badge-caption="días">${cliente.duracionPlan}</span></td>`
+  } else {
+    return `<td class="plan"><span class="new badge green" data-badge-caption="días">${cliente.duracionPlan}</span></td>`
+  }
+}
+
 asistencia.on('child_added', snapshot => {
   var asist = snapshot.val();
   var row = "";
-
   var opts = {
     year: 'numeric',
-    month: 'long',
+    month: 'numeric',
     day: 'numeric',
     weekday: 'long',
     hour: 'numeric',
@@ -71,8 +88,8 @@ asistencia.on('child_added', snapshot => {
              <td>${cnt}</td>
              <td class="nombre">${asist.nombre}</td>
              <td class="apellido">${asist.apellido}</td>
-             <td class="fecha">${new Date(asist.year, asist.month, asist.day, asist.hour, asist.minute).toLocaleDateString("es", opts)}</td>
-             <td class="plan">${asist.duracionPlan}</td>
+             <td class="fecha">${new Date(asist.year, asist.month, asist.day, asist.hour, asist.minute).toLocaleDateString("lat", opts)}</td>
+             ${checkPlan(asist)}
            </tr>
           `;
 
@@ -80,13 +97,6 @@ asistencia.on('child_added', snapshot => {
 	row = "";
   cnt++
 });
-
-var date = new Date();
-var year = date.getFullYear();
-var month = date.getMonth();
-var day = date.getDate();
-var hour = date.getHours();
-var minute = date.getMinutes();
 
 function addAsist(uid) {
   clientes.child(uid).once("value", snap => {
@@ -118,7 +128,7 @@ function addAsist(uid) {
 var search = function() {
  // Declare variables
  var input, filter, table, tr, td, i;
- input = document.getElementById("search");
+ input = document.getElementById("filtro");
  filter = input.value.toUpperCase();
  table = document.getElementById("asistencia");
  tr = table.getElementsByTagName("tr");
@@ -134,6 +144,25 @@ var search = function() {
    }
  }
 }
+
+$('#filtro').pickadate({
+  selectMonths: true,
+  selectYears: 50,
+  min: new Date(1970,1,1),
+  max: true,
+  today: 'Hoy',
+  clear: 'Limpiar',
+  close: 'Ok',
+  closeOnSelect: false,
+  monthsFull: [ 'Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre' ],
+  monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Ago", "Set", "Oct", "Nov", "Dic"],
+  weekdaysShort: ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'],
+  format: 'd/m/yyyy',
+  onClose: function () {
+    search()
+  }
+})
+
 const fecha = db.child('fecha')
 
 function discount() {
