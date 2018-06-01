@@ -1,4 +1,5 @@
 const planes = db.child('planes')
+const nodemailer = require('nodemailer')
 
 $(function () {
   planes.on('value', snapshot => {
@@ -98,6 +99,29 @@ var guardarCliente = function() {
       if (error) {
         console.log(error, 'La sincronizacion fallo');
       } else {
+        var transporter = nodemailer.createTransport({
+          service: 'gmail',
+          auth: {
+            user: 'RentoysMonteria',
+            pass: 'ftdldeeheevlubzp'
+          }
+        });
+
+        var mailOptions = {
+          from: 'rentoysmonteria@gmail.com',
+          to: cliente.email,
+          subject: 'Bienvenido a BodyXtreme',
+          html: `Bienvenido a BodyXtreme ${cliente.nombre}`
+        };
+
+        transporter.sendMail(mailOptions, function(error, info){
+          if (error) {
+            console.log(error);
+          } else {
+            console.log('Email sent: ' + info.response);
+          }
+        });
+
         $('#modalCliente').modal('close');
         clearForm();
       }
